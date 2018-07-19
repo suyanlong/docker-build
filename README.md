@@ -1,2 +1,2 @@
-# chain33-run
-docker run for chain33
+# dotos-run
+docker run for dotos

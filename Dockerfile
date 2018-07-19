@@ -9,7 +9,7 @@ ENV PATH ${GOPATH}/bin:$PATH
 RUN go get -u gopkg.in/alecthomas/gometalinter.v2 \
     && gometalinter.v2 -i \
     && go get -u github.com/mitchellh/gox \
-    && go get -u github.com/vektra/mockery/.../
+    && go get -u github.com/vektra/mockery/.../ \
 	&& go get -u mvdan.cc/sh/cmd/shfmt \
 	&& go get -u mvdan.cc/sh/cmd/gosh
 
