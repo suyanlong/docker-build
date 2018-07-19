@@ -1,5 +1,5 @@
 # Base image: https://hub.docker.com/_/golang/
-FROM golang:1.9.2
+FROM golang:1.10
 
 # Install golint
 ENV GOPATH /go
@@ -10,10 +10,13 @@ RUN go get -u gopkg.in/alecthomas/gometalinter.v2 \
     && gometalinter.v2 -i \
     && go get -u github.com/mitchellh/gox \
     && go get -u github.com/vektra/mockery/.../
+	&& go get -u mvdan.cc/sh/cmd/shfmt \
+	&& go get -u mvdan.cc/sh/cmd/gosh
+
 
 # Use speedup source for Chinese Mainland user,if not you can remove it
-RUN cp /etc/apt/sources.list  /etc/apt/sources.list.old \
-    && sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+# RUN cp /etc/apt/sources.list  /etc/apt/sources.list.old \
+    # && sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 # Add apt key for LLVM repository
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
@@ -34,6 +37,8 @@ RUN apt autoremove \
 
 COPY protoc-gen-go /usr/bin/
 COPY protoc /usr/bin/
+COPY shellcheck /usr/bin/
 
 RUN chmod +x /usr/bin/protoc-gen-go \
+    && chmod +x /usr/bin/shellcheck \
     && chmod +x /usr/bin/protoc
