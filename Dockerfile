@@ -11,8 +11,7 @@ RUN go get -u github.com/alecthomas/gometalinter \
     && go get -u github.com/mitchellh/gox \
     && go get -u github.com/vektra/mockery/.../ \
 	&& go get -u mvdan.cc/sh/cmd/shfmt \
-	&& go get -u mvdan.cc/sh/cmd/gosh \
-    && apt install clang-format-6.0
+	&& go get -u mvdan.cc/sh/cmd/gosh
 
 
 # Use speedup source for Chinese Mainland user,if not you can remove it
