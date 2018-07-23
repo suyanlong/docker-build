@@ -6,12 +6,13 @@ ENV GOPATH /go
 ENV PATH ${GOPATH}/bin:$PATH
 
 # Install dep
-RUN go get -u gopkg.in/alecthomas/gometalinter.v2 \
-    && gometalinter.v2 -i \
+RUN go get -u gopkg.in/alecthomas/gometalinter \
+    && gometalinter -i \
     && go get -u github.com/mitchellh/gox \
     && go get -u github.com/vektra/mockery/.../ \
 	&& go get -u mvdan.cc/sh/cmd/shfmt \
-	&& go get -u mvdan.cc/sh/cmd/gosh
+	&& go get -u mvdan.cc/sh/cmd/gosh \
+    && apt install clang-format-6.0
 
 
 # Use speedup source for Chinese Mainland user,if not you can remove it
@@ -20,17 +21,17 @@ RUN go get -u gopkg.in/alecthomas/gometalinter.v2 \
 
 # Add apt key for LLVM repository
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
-    && echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-5.0 main" | tee -a /etc/apt/sources.list
+    && echo "deb http://apt.llvm.org/stretch/ llvm-toolchain-stretch-6.0 main" | tee -a /etc/apt/sources.list
 
 # Install clang from LLVM repository
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    clang-5.0 git \
+    clang-6.0 git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set Clang as default CC
 ENV set_clang /etc/profile.d/set-clang-cc.sh
-RUN echo "export CC=clang-5.0" | tee -a ${set_clang} && chmod a+x ${set_clang}
+RUN echo "export CC=clang-6.0" | tee -a ${set_clang} && chmod a+x ${set_clang}
 
 RUN apt autoremove \
     && apt clean && go clean
