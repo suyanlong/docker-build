@@ -6,7 +6,7 @@ ENV GOPATH /go
 ENV PATH ${GOPATH}/bin:$PATH
 
 # Install dep
-RUN go get -u gopkg.in/alecthomas/gometalinter \
+RUN go get -u github.com/alecthomas/gometalinter \
     && gometalinter -i \
     && go get -u github.com/mitchellh/gox \
     && go get -u github.com/vektra/mockery/.../ \
