@@ -24,7 +24,7 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
 
 # Install clang from LLVM repository
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    clang-6.0 git \
+    clang-6.0 clang-format-6.0 git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
