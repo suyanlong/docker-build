@@ -1,2 +1,2 @@
-# dotos-run
-docker run for dotos
+# dotos-build
+docker build for application
