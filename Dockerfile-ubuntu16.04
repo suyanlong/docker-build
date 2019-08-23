@@ -1,30 +1,23 @@
 FROM ubuntu:16.04
 
 # Use speedup source for Chinese Mainland user,if not you can remove it
-# sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
-# RUN apt update
-# RUN apt upgrade -y
+RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
+    && apt update \
+    && apt upgrade -y
 
 RUN apt-get update \
-    && apt install -y python-pip curl clang git apt-transport-https ca-certificates gnupg2 software-properties-common cmake make automake wget jq zip unzip tree htop \
-    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
-    && apt-key fingerprint 0EBFCD88 \
-    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"\
-    && apt-get update \
-    && apt-get install -y docker-ce \
-    && pip install awscli --upgrade --user \
-    && mv ${HOME}/.local/bin/aws* /usr/bin/
+    && apt install -y python-pip curl clang git apt-transport-https ca-certificates gnupg2 software-properties-common cmake make automake wget jq zip unzip tree htop 
 
 
 # Add apt key for LLVM repository
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
-    && echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main" | tee -a /etc/apt/sources.list
+    && echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" | tee -a /etc/apt/sources.list
 
 # Install clang from LLVM repository
-RUN apt-get update && apt-get install -y --no-install-recommends  clang-7 clang-format-7 git
+RUN apt-get update && apt-get install -y --no-install-recommends  clang-6.0 clang-format-6.0 git
 
 RUN apt autoremove \
-    && apt clean && go clean
+    && apt clean
 
 COPY protoc-gen-go /usr/bin/
 COPY protoc /usr/bin/
@@ -36,7 +29,7 @@ RUN chmod +x /usr/bin/protoc-gen-go \
 
 # golang env
 RUN curl -O https://dl.google.com/go/go1.12.9.linux-amd64.tar.gz \
-    && tar -zxvf go1.12.5.linux-amd64.tar.gz \
+    && tar -zxvf go1.12.9.linux-amd64.tar.gz \
     && mv go /opt/
 
 COPY install.sh /root/

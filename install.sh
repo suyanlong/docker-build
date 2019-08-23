@@ -15,7 +15,9 @@ export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 EOF
 
-RUN source ${HOME}/.bash_profile && go version && go env
+source ${HOME}/.bash_profile && go version && go env
+
+mkdir -p $HOME/.cargo && touch $HOME/.cargo/config
 
 cat << EOF > $HOME/.cargo/config
 [source.crates-io]
@@ -27,7 +29,7 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 EOF
 
 # rust env
-RUN curl https://sh.rustup.rs -sSf >> rustup-init.sh \
+curl https://sh.rustup.rs -sSf >> rustup-init.sh \
     && chmod +x rustup-init.sh \
     && ./rustup-init.sh -y --no-modify-path \
     && source $HOME/.cargo/env \
@@ -35,4 +37,4 @@ RUN curl https://sh.rustup.rs -sSf >> rustup-init.sh \
     && cargo version
 
 # tool
-RUN cargo install fd-find bat hyperfine
+cargo install fd-find bat hyperfine
