@@ -35,7 +35,7 @@ RUN chmod +x /usr/bin/protoc-gen-go \
     && chmod +x /usr/bin/protoc
 
 # golang env
-RUN curl -O https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz \
+RUN curl -O https://dl.google.com/go/go1.12.9.linux-amd64.tar.gz \
     && tar -zxvf go1.12.5.linux-amd64.tar.gz \
     && mv go /opt/
 

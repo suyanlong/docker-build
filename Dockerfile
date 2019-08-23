@@ -1,5 +1,5 @@
 # Base image: https://hub.docker.com/_/golang/
-FROM golang:1.12.5
+FROM golang:1.12.9
 
 # Install golint
 ENV GOPATH /go
